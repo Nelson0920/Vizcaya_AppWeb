@@ -1,0 +1,44 @@
+:root {
+  --white: #FFFFFF;
+  --black: #000000;
+  --very-light-pink: #C7C7C7;
+  --text-input-field: #e7e4e4;
+  --hospital-green: #3538f3;
+  --background-inputs: #d6e2f9;
+  --background-alertErrors: #be1919;
+  --orange-buttons: #e88821;
+  --orange-buttons-light: rgb(222, 175, 19);
+  --sm: 14px;
+  --md: 16px;
+  --lg: 18px;
+  --xlg: 24px;
+}
+
+.ShoppingCartItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.ShoppingCartItem figure {
+  margin: 0;
+}
+
+.ShoppingCartItem figure img {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.ShoppingCartItem p:nth-child(2) {
+  color: var(--very-light-pink);
+}
+
+.ShoppingCartItem p:nth-child(3) {
+  font-size: var(--md);
+  font-weight: bold;
+}/*# sourceMappingURL=ShoppingCartItem.css.map */

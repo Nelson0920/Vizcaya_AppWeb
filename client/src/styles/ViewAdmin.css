@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+.admin-panel {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #0074D9;
+  padding: 20px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+.sidebar .headerAdmin {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.sidebar .headerAdmin .buttonadmin3 {
+  text-decoration: none;
+  color: #fff;
+  padding: 8px 12px;
+  background-color: #3498DB;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.sidebar .headerAdmin .buttonadmin3 svg {
+  margin-right: 5px;
+}
+.sidebar .headerAdmin .buttonadmin3:hover {
+  background-color: #0074D9;
+}
+.sidebar .headerAdmin .AdminTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-left: 15px;
+}
+.sidebar .linksAdmin .sidebar-item {
+  margin-bottom: 15px;
+}
+.sidebar .linksAdmin .buttonadmin1,
+.sidebar .linksAdmin .buttonadmin2,
+.sidebar .linksAdmin .buttonadmin5,
+.sidebar .linksAdmin .buttonadmin4 {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background-color 0.2s;
+  text-align: center;
+  background-color: transparent;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.sidebar .linksAdmin .buttonadmin1:hover,
+.sidebar .linksAdmin .buttonadmin2:hover,
+.sidebar .linksAdmin .buttonadmin5:hover,
+.sidebar .linksAdmin .buttonadmin4:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.sidebar .linksAdmin .buttonadmin1 {
+  background-color: #3498DB;
+}
+.sidebar .linksAdmin .buttonadmin2 {
+  background-color: #3498DB;
+}
+.sidebar .linksAdmin .buttonadmin5 {
+  background-color: #3498DB;
+}
+.sidebar .linksAdmin .buttonadmin4 {
+  color: #fff;
+  background-color: #3498DB;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.sidebar .linksAdmin .buttonadmin4:hover {
+  background-color: #0074D9;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content .main-panel {
+  display: flex;
+}
+.content .main-panel .content-section1,
+.content .main-panel .content-section2 {
+  flex: 1;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  border-radius: 5px;
+  font-family: "Roboto", sans-serif;
+}
+.content .main-panel .content-section1 h2,
+.content .main-panel .content-section2 h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+}
+.content .main-panel .content-section1 p,
+.content .main-panel .content-section2 p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+.content .main-panel .content-section1 .chart-container,
+.content .main-panel .content-section2 .chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+.content .main-panel .content-section1 table,
+.content .main-panel .content-section2 table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.content .main-panel .content-section1 table th,
+.content .main-panel .content-section1 table td,
+.content .main-panel .content-section2 table th,
+.content .main-panel .content-section2 table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #f2f2f2;
+}
+.content .main-panel .content-section1 table th,
+.content .main-panel .content-section2 table th {
+  color: #333;
+  font-weight: 700;
+}
+.content .main-panel .content-section1 table tr:hover,
+.content .main-panel .content-section2 table tr:hover {
+  background-color: #f9f9f9;
+}/*# sourceMappingURL=ViewAdmin.css.map */

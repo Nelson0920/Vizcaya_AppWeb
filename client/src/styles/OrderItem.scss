@@ -1,0 +1,47 @@
+@import 'vars';
+
+.MyOrder {
+	width: 400px;
+	/* Modifica el ancho según tus necesidades */
+}
+
+.OrderItem {
+	display: grid;
+	grid-template-columns: auto 1fr auto auto;
+	gap: 16px;
+	margin-bottom: 24px;
+	align-items: center;
+}
+
+.OrderItem figure {
+	margin: 0;
+}
+
+.OrderItem figure img {
+	width: 70px;
+	height: 70px;
+	border-radius: 20px;
+	object-fit: cover;
+}
+
+.OrderItem p:nth-child(2) {
+	color: var(--very-light-pink);
+}
+
+.OrderItem p:nth-child(3) {
+	font-size: var(--md);
+	font-weight: bold;
+}
+
+.OrderItem .deleteProduct {
+	border: transparent;
+	padding-left: 8px;
+	padding-right: 8px;
+	background: rgb(255, 155, 155);
+	box-shadow: 1px 1px 1px 1px rgba(159, 159, 159, 0.503);
+	border-radius: 5px;
+	position: absolute;
+	color: red;
+	font-size: 25px;
+	margin-top: -56px;
+}

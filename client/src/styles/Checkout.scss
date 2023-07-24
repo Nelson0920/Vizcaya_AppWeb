@@ -1,0 +1,162 @@
+.Bigbox {
+  position: relative;
+
+  .boxBackground {
+    position: absolute;
+    width: 50%;
+    margin: 0%;
+
+    .box1 {
+      border-right: 3px solid rgba(189, 189, 189, 0.651);
+      position: relative;
+      background: #eceaea;
+      padding-top: 5%;
+      height: 94.5vh;
+
+      .cartProducts {
+        text-align: center;
+        font-size: 30px;
+      }
+    }
+  }
+
+  .box2 {
+    position: absolute;
+    background: #ffffff;
+    width: 50%;
+    padding-top: 5%;
+    left: 50%;
+  }
+}
+
+.Checkout {
+  display: flex;
+  gap: 20px;
+}
+
+.product-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-left: 5%;
+  margin-right: 5%;
+  display: block; /* Cambia 'flex-direction' a 'block' para mostrar los elementos uno debajo del otro */
+}
+
+.product-list li {
+  display: flex;
+  align-items: center;
+}
+
+.product-list li img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  border: 2px solid rgba(189, 189, 189, 0.651);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-list li p {
+  margin: 0;
+  font-weight: bold;
+}
+
+.nameProduct, .priceProduct{
+  font-size: 18px;
+}
+
+.priceProduct{
+  color: #707070;
+  font-size: 16px;
+}
+
+
+.total {
+  position: absolute;
+  font-size: 18px;
+  top: 600px;
+  text-align: left;
+  left: 15%;
+}
+
+.priceTotal{
+  font-size: 24px;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  p {
+    font-size: 18px;
+    margin: 0;
+  }
+}
+
+
+
+.CheckoutForm,
+.CardForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.CheckoutForm h3,
+.CardForm h3 {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+.CheckoutForm .form-group,
+.CardForm .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.CheckoutForm label,
+.CardForm label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.CheckoutForm input,
+.CardForm input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+
+.CheckoutForm button[type="submit"],
+.CardForm button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.CheckoutForm button[type="submit"]:hover,
+.CardForm button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.CheckoutFormsContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+
+.PayPalButton {
+  margin-left: 15%;
+  margin-top: -50px;
+}

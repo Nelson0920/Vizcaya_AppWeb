@@ -1,0 +1,148 @@
+.ProductItem {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	/* La primera columna se ajusta al contenido, la segunda columna se expande */
+	align-items: center;
+	/* Alinea verticalmente los elementos */
+	width: 100%;
+	height: 240px;
+	margin-bottom: 8px;
+	background-color: white;
+	border: 1px solid rgb(215, 215, 215);
+
+	img {
+		width: 248px;
+		height: 240px;
+		object-fit: cover;
+		cursor: pointer;
+		box-shadow: 1px 1px 1px 1px rgba(150, 150, 150, 0.404);
+		margin-right: 10px;
+		/* Agrega un margen a la derecha para separar la imagen de la información */
+	}
+
+	.product-info {
+		padding: 10px;
+
+		div {
+			p:nth-child(1) {
+				font-weight: bold;
+				font-size: var(--xlg);
+				color: rgb(0, 0, 0);
+				margin-top: 0;
+				margin-bottom: 4px;
+			}
+
+			p:nth-child(2) {
+				font-size: var(--sm);
+				margin-top: 0;
+				margin-bottom: 0;
+				color: var(--very-light-pink);
+			}
+
+			p:nth-child(3) {
+				font-size: var(--lg);
+				margin-top: 0;
+				margin-bottom: 4px;
+				color: var(--very-light-pink);
+			}
+		}
+
+		figure {
+			margin: 0;
+			width: 20px;
+			margin-left: 700px;
+
+			img {
+				display: flex;
+				position: relative;
+				width: 45px;
+				height: 45px;
+				border-radius: 20px;
+				left: 80%;
+				cursor: pointer;
+			}
+		}
+
+		.admin-buttons {
+			display: flex;
+			align-items: center;
+			position: relative;
+			left: 70%;
+
+			figure {
+				margin-left: 30px;
+				cursor: pointer;
+
+				p {
+					width: 25px;
+					height: 25px;
+				}
+			}
+		}
+	}
+}
+
+
+.modalD {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 999;
+  }
+  
+  .modal-contentD {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 4px;
+	max-width: 600px; /* Modifica el tamaño máximo del modal aquí */
+	text-align: center;
+  }
+  
+  .modalD h3 {
+	margin-top: 0;
+  }
+  
+  .modal-buttonsD {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+  }
+  
+  .modal-buttonsD button {
+	margin: 0 10px;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 4px;
+	background-color: #f00;
+	color: #fff;
+	cursor: pointer;
+  }
+  
+  .modal-buttonsD button:hover {
+	background-color: #d00;
+  }
+  
+  .modal-buttonsD button:focus {
+	outline: none;
+  }
+
+@media (max-width: 640px) {
+	.cards-container {
+		grid-template-columns: repeat(auto-fill, 140px);
+	}
+
+	.ProductItem {
+		width: 140px;
+	}
+
+	.ProductItem img {
+		width: 140px;
+		height: 140px;
+	}
+}

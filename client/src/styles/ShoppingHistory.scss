@@ -1,0 +1,76 @@
+// ShoppingHistory.scss
+
+.shopping-history {
+  max-height: 600px;
+
+  .home-button,.generate-pdf-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #55608f;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: #3b466d;
+    }
+  
+    &:focus {
+      outline: none;
+    }
+  }
+  .generate-pdf-button{
+    position: absolute;
+    margin-top: 10px;
+    right: 10px;
+  }
+
+  .containerHistory {
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background-color: #55608f;
+      color: #fff;
+      text-align: left;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .product-info {
+      display: flex;
+      align-items: center;
+
+      h3 {
+        margin: 0;
+      }
+    }
+
+    .order-total {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  }
+}

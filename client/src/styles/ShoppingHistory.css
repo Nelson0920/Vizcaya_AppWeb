@@ -1,0 +1,52 @@
+.shopping-history {
+  max-height: 600px;
+}
+.shopping-history .home-button {
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: #55608f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.shopping-history .containerHistory {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+.shopping-history table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.shopping-history table th,
+.shopping-history table td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.shopping-history table th {
+  background-color: #55608f;
+  color: #fff;
+  text-align: left;
+}
+.shopping-history table img {
+  width: 50px;
+  height: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.shopping-history table .product-info {
+  display: flex;
+  align-items: center;
+}
+.shopping-history table .product-info h3 {
+  margin: 0;
+}
+.shopping-history table .order-total {
+  margin-top: 10px;
+  font-weight: bold;
+}/*# sourceMappingURL=ShoppingHistory.css.map */

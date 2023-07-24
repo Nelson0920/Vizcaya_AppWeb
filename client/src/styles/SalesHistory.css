@@ -1,0 +1,67 @@
+.sales-history {
+  max-height: 600px;
+}
+.sales-history .search-container {
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+.sales-history .search-container input {
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  width: 80%;
+  height: 40px;
+  max-width: 400px;
+}
+.sales-history .home-button {
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: #55608f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.sales-history .user {
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.sales-history .user h2 {
+  margin-bottom: 10px;
+}
+.sales-history .user .order {
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}
+.sales-history .user .order p {
+  margin: 5px 0;
+}
+.sales-history .user .order table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.sales-history .user .order table th,
+.sales-history .user .order table td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.sales-history .user .order table th {
+  background-color: #55608f; /* Color de fondo del encabezado de la tabla */
+  color: #fff; /* Color del texto del encabezado de la tabla */
+  text-align: left;
+}
+.sales-history .user .order .order-total {
+  margin-top: 10px;
+  font-weight: bold;
+}/*# sourceMappingURL=SalesHistory.css.map */
