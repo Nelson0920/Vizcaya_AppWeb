@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Product, Comment, Category, Order, OrderDetail, FeaturedProduct
+from register.serializer import UserSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
     img_prd = serializers.ImageField(max_length=None, allow_empty_file=False, use_url=True)
@@ -76,3 +77,13 @@ class ProductAuditSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductAudit
         fields = '__all__'
+
+
+class GetProductAuditSerializer(serializers.ModelSerializer):
+    nam_reg = serializers.CharField(source='user.nam_reg', read_only=True)  
+    nam_prd = serializers.CharField(source='product.nam_prd', read_only=True)  
+    action = serializers.CharField(source='get_action_display', read_only=True)  
+
+    class Meta:
+        model = ProductAudit
+        fields = ['id', 'nam_reg', 'nam_prd', 'action', 'timestamp']

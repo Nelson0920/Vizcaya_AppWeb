@@ -3,14 +3,13 @@ from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from .models import Product, Comment, Category, Order, OrderDetail, FeaturedProduct
+from .models import Product, Comment, Category, Order, OrderDetail, FeaturedProduct, ProductAudit
 from register.serializer import UserSerializer, ClientSerializer
-from django.db.models.functions import Coalesce, ExtractMonth, ExtractYear
+from django.db.models.functions import Coalesce, ExtractMonth
 from register.models import Client, User
-from django.db.models import Sum, Count, IntegerField
-from django.http import JsonResponse
+from django.db.models import Sum, Count
 from django.utils import timezone
-from .serializer import ProductSerializer, FeaturedProductSerializer, CommentSerializer, CategorySerializer, OrderSerializer, OrderDetailSerializer, OrderSerializer2
+from .serializer import ProductSerializer, FeaturedProductSerializer, CommentSerializer, CategorySerializer, OrderSerializer, OrderDetailSerializer, OrderSerializer2, GetProductAuditSerializer
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
@@ -223,8 +222,6 @@ def top_categories(request):
     return Response(top_categories_data)
 
 
-import calendar
-
 # Diccionario que mapea números de meses a nombres abreviados en español
 MONTH_NAMES_ES = {
     1: 'ene',
@@ -370,7 +367,6 @@ def product_stars_summary(request, product_id):
 
 
 #-----------Auditoria--------------------
-from .models import ProductAudit
 from .serializer import ProductAuditSerializer
 
 
@@ -406,3 +402,9 @@ def create_product_audit(request):
         return Response({'error': 'User with the specified ID does not exist.'}, status=status.HTTP_404_NOT_FOUND)
     except Product.DoesNotExist:
         return Response({'error': 'Product with the specified ID does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+class ProductAuditListView(generics.ListAPIView):
+    queryset = ProductAudit.objects.all()
+    serializer_class = GetProductAuditSerializer

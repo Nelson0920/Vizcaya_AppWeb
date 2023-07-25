@@ -141,6 +141,7 @@ export const ViewAdmin = () => {
   let createProduct;
   let EditProduct;
   let Sales;
+  let Audit;
   if (cookies.get('module').insert_prd) {
     createProduct = (
       <div className="sidebar-item">
@@ -170,6 +171,16 @@ export const ViewAdmin = () => {
       </div>
     );
   }
+  
+  if (cookies.get('module').audit) {
+    Audit = (
+      <div className="sidebar-item">
+        <Link to="/audit-history" className="buttonadmin5">
+          Auditoria de Productos
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-panel">
@@ -186,6 +197,7 @@ export const ViewAdmin = () => {
           {createProduct}
           {EditProduct}
           {Sales}
+          {Audit}
           <div className="sidebar-item">
             <Link to="/generate-report" className="buttonadmin4">
               Generar Reporte

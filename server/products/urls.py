@@ -24,5 +24,7 @@ urlpatterns = [
 
     path('api/v3/products/product-stars/<int:user_id>/', views.FeaturedProductListView.as_view(), name='product_stars'),
     path('api/v3/products/product-stars-summary/<int:product_id>/', views.product_stars_summary, name='product_stars_summary'),
-    path('api/product_audits/', views.create_product_audit, name='create_product_audit')
+    
+    path('api/product_audits/', views.create_product_audit, name='create_product_audit'),
+    path('api/get-product-audit/', views.ProductAuditListView.as_view(), name='product-audit-list'),
 ]

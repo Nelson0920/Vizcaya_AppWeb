@@ -20,6 +20,7 @@ class Module(models.Model):
     sales_history = models.BooleanField(default=False)
     dashboard = models.BooleanField(default=False)
     settings = models.BooleanField(default=False)
+    audit = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Module: {self.id}'

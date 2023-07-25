@@ -66,6 +66,20 @@ class FeaturedProduct(models.Model):
         return f'Featured Product: {self.product.nam_prd}'
     
 
+class DeletedProduct(models.Model):
+    nam_prd = models.CharField(max_length=100)
+    prc_prd = models.DecimalField(max_digits=10, decimal_places=2)
+    img_prd = models.ImageField(upload_to='product_images', default='product_images/default.gif')
+    desc_prd = models.TextField(blank=True, null=True)
+    qty_prd = models.PositiveIntegerField(default=0)
+    fec_prd = models.DateTimeField()
+    cat_prd = models.ForeignKey(Category, on_delete=models.CASCADE)
+    del_prd = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f'Deleted Product: {self.nam_prd}'
+
+
 #-----------Auditoria--------------------
 
 class ProductAudit(models.Model):
@@ -79,7 +93,7 @@ class ProductAudit(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='audits')
     action = models.CharField(max_length=1, choices=ACTION_CHOICES)
     timestamp = models.DateTimeField(default=timezone.now)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Campo ForeignKey para almacenar el usuario
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f'Auditoria del Producto: {self.product.nam_prd} / Accion: {self.get_action_display()}'

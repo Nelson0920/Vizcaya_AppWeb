@@ -1,0 +1,82 @@
+CREATE OR REPLACE FUNCTION on_product_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO products_deletedproduct (nam_prd, prc_prd, img_prd, desc_prd, qty_prd, fec_prd, cat_prd_id, del_prd)
+    VALUES (OLD.nam_prd, OLD.prc_prd, OLD.img_prd, OLD.desc_prd, OLD.qty_prd, OLD.fec_prd, OLD.cat_prd_id, OLD.del_prd);
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER product_delete_trigger
+AFTER DELETE ON products_product
+FOR EACH ROW
+EXECUTE FUNCTION on_product_delete();
+
+
+-- Esta es la función que se ejecuta cuando un producto es eliminado.
+-- Recibe un "OLD" row, que representa el registro del producto que está siendo eliminado.
+CREATE OR REPLACE FUNCTION on_product_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- INSERT INTO ... VALUES ...: Inserta los datos del producto eliminado en la tabla products_deletedproduct.
+    -- "OLD" es el registro del producto que está siendo eliminado.
+    -- Los valores del producto eliminado se toman del registro "OLD" y se insertan en la tabla "products_deletedproduct".
+    INSERT INTO products_deletedproduct (nam_prd, prc_prd, img_prd, desc_prd, qty_prd, fec_prd, cat_prd_id, del_prd)
+    VALUES (OLD.nam_prd, OLD.prc_prd, OLD.img_prd, OLD.desc_prd, OLD.qty_prd, OLD.fec_prd, OLD.cat_prd_id, OLD.del_prd);
+    
+    -- RETURN OLD: Devuelve el registro "OLD" para que el disparador de eliminación pueda continuar con su proceso.
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Este es el disparador que se activa después de eliminar un registro de la tabla products_product.
+-- "AFTER DELETE" indica que el disparador se ejecuta después de que se haya eliminado el registro.
+-- "FOR EACH ROW" significa que el disparador se aplica a cada fila eliminada.
+CREATE TRIGGER product_delete_trigger
+AFTER DELETE ON products_product
+FOR EACH ROW
+EXECUTE FUNCTION on_product_delete();
+
+
+
+
+CREATE OR REPLACE FUNCTION on_product_qty_update()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.qty_prd = 0 THEN
+        NEW.del_prd = 0;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER product_qty_update_trigger
+BEFORE UPDATE ON products_product
+FOR EACH ROW
+EXECUTE FUNCTION on_product_qty_update();
+
+
+-- Esta es la función que se ejecuta cuando se actualiza un producto.
+-- Recibe un "NEW" row, que representa el registro actualizado del producto.
+CREATE OR REPLACE FUNCTION on_product_qty_update()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- IF NEW.qty_prd = 0: Verifica si el nuevo valor de la cantidad del producto es igual a 0.
+    -- Si es así, significa que la cantidad ha llegado a 0.
+    IF NEW.qty_prd = 0 THEN
+        -- NEW.del_prd = 0: Establece el valor del campo "del_prd" a 0.
+        -- Esto significa que el producto está marcado como no disponible.
+        NEW.del_prd = 0;
+    END IF;
+    -- RETURN NEW: Devuelve el registro "NEW" para que el disparador de actualización pueda continuar con su proceso.
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Este es el disparador que se activa antes de actualizar un registro en la tabla products_product.
+-- "BEFORE UPDATE" indica que el disparador se ejecuta antes de que se realice la actualización.
+-- "FOR EACH ROW" significa que el disparador se aplica a cada fila que se está actualizando.
+CREATE TRIGGER product_qty_update_trigger
+BEFORE UPDATE ON products_product
+FOR EACH ROW
+EXECUTE FUNCTION on_product_qty_update();

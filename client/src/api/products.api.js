@@ -164,7 +164,7 @@ export const productStars = (id, data) => {
 
 
 export const createAuditProduct = (auditData) => {
-  console.log(auditData)
+
   return connectionApiProductsAudit.post('/product_audits/', auditData)
     .then(response => {
       console.log('Registro de auditoría creado exitosamente:', response.data);
@@ -175,3 +175,6 @@ export const createAuditProduct = (auditData) => {
       throw error;
     });
 };
+
+
+export const getAuditProduct = () => {return connectionApiProductsAudit.get('/get-product-audit/')}

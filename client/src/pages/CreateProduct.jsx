@@ -37,7 +37,6 @@ const CreateProduct = () => {
             alert('Producto creado satisfactoriamente');
         } catch (error) {
             console.error(error);
-            // Aquí puedes manejar el error de acuerdo a tus necesidades
         }
     };
 
@@ -48,16 +47,6 @@ const CreateProduct = () => {
     const goHome = () => {
         nav('/view-admin');
     }
-
-    const validateName = (value) => {
-        const regex = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]*$/; // Expresión regular que permite letras, números y caracteres especiales
-        return regex.test(value);
-    };
-
-    const validatePrice = (value) => {
-        const regex = /^[0-9]+$/; // Expresión regular que permite solo números
-        return regex.test(value);
-    };
 
     return (
         <div className="Login">

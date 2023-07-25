@@ -18,6 +18,7 @@ def create_register(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 def login(request):
     serializer = LoginSerializer(data=request.data)
@@ -67,9 +68,7 @@ def update_user(request, user_id):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ClientCreateView(generics.CreateAPIView):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
-
-
-

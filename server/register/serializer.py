@@ -35,7 +35,6 @@ class UserSerializer(serializers.ModelSerializer):
             return ModuleSerializer(instance.role.module).data
 
 
-
 class LoginSerializer(serializers.Serializer):
     eml_reg = serializers.CharField()
     pwd_reg = serializers.CharField()

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { getOrdersByClientId } from '../api/products.api';
-import '@styles/ShoppingHistory.scss';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import '@styles/ShoppingHistory.scss';
 
 const cookies = new Cookies();
 

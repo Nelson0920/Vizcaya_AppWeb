@@ -13,6 +13,7 @@ import { ViewAdmin } from '@pages/ViewAdmin';
 import { ShoppingHistory } from '@pages/ShoppingHistory';
 import { SalesHistory } from '@pages/SalesHistory';
 import { EditUserProfile } from '@pages/EditUserProfile';
+import { AuditHistory } from '@pages/AuditHistory';
 import NotFound from '@pages/NotFound';
 import CreateProduct from '@pages/CreateProduct';
 import AppContext from '@context/AppContext';
@@ -69,6 +70,10 @@ export const App = () => {
 
                         <Route element={<ProtectedRoute isAllowed={!!user.module && user.module.sales_history} />}>
                             <Route exact path="/sales-history" element={<SalesHistory />} />
+                        </Route>
+
+                        <Route element={<ProtectedRoute isAllowed={!!user.module && user.module.audit} />}>
+                            <Route exact path="/audit-history" element={<AuditHistory />} />
                         </Route>
 
                         <Route exact path="/create-product" element={
