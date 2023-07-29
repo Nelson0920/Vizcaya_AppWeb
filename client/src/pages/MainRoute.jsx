@@ -29,10 +29,10 @@ export const MainRoute = () => {
         <div>
             <div className="market">
                 <header className="header">
-                    <h1 className="logo">Ferretería Market</h1>
+                    <h1 className="logo">Ferretería Mercado</h1>
                     <nav className="navbar">
                         <div className="navbar-left">
-                            <h1>MarketShopApp</h1>
+                            <h1>Vizcaya App</h1>
                         </div>
                         <ul className="nav-list">
                             <li className="nav-item">

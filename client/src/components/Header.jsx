@@ -39,7 +39,7 @@ const Header = () => {
 						<Button variant="contained" onClick={handleToggle}>Menu</Button>
 					</li>
 					<li className="navbar-shopping-cart" onClick={handleToggleOrders}>
-						<img src={iconCart} title="sCarrito de compras" />
+						<img src={iconCart} title="Carrito de compras" />
 						{state.cart.length > 0 ? <div>{state.cart.length}</div> : null}
 					</li>
 				</ul>

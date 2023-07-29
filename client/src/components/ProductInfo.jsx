@@ -66,7 +66,7 @@ const ProductInfo = ({ product, onClose }) => {
         }
       }
     } catch (error) {
-      console.error('Failed to send message:', error);
+      console.error('No se pudo enviar el mensaje:', error);
     } finally {
       setIsSendingMessage(false);
     }
@@ -94,7 +94,7 @@ const ProductInfo = ({ product, onClose }) => {
 
       setChatMessages(sortedMessages);
     } catch (error) {
-      console.error('Failed to fetch chat messages:', error);
+      console.error('No se pudieron recuperar los mensajes de chat:', error);
     }
   };
 
@@ -106,7 +106,7 @@ const ProductInfo = ({ product, onClose }) => {
       const userRating = productRatingData ? productRatingData.rank_prd : 0;
       setRating(userRating);
     } catch (error) {
-      console.error('Failed to fetch user rating:', error);
+      console.error('No se pudo obtener la calificación del usuario:', error);
     }
   };
 
@@ -116,7 +116,7 @@ const ProductInfo = ({ product, onClose }) => {
       const scaledStars = response.data?.scaled_stars || 0;
       setScaledStars(scaledStars);
     } catch (error) {
-      console.error('Failed to fetch product stars summary:', error);
+      console.error('Error al obtener el resumen de estrellas del producto:', error);
     }
   };
 

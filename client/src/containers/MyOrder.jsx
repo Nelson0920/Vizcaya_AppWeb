@@ -39,7 +39,7 @@ const MyOrder = () => {
 
   const handleCheckout = () => {
     if (state.cart.length === 0) {
-      console.log("Cart is empty. Cannot proceed to checkout.")
+      console.log("El carrito esta vacío. No se puede proceder al pago.")
       return
     }
 
