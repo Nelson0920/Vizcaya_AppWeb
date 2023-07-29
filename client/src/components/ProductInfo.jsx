@@ -23,7 +23,8 @@ const ProductInfo = ({ product, onClose }) => {
     addToCart({ ...product });
     toast.success(`${product.nam_prd} ha sido agregado al carrito`, {
       autoClose: 2000,
-      position: "bottom-right"
+      theme: "colored",
+      position: "bottom-left"
     });
   };
   const handleSendMessage = async () => {

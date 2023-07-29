@@ -57,7 +57,7 @@ export const CreateAccount = () => {
 
     try {
       await emailjs.send(serviceId, templateId, templateParams, userId);
-      toast.info(`Se ha enviado un codigo de verficacion a tu carreo.`, { theme: "colored" });
+      toast.info(`Se ha enviado un codigo de verficacion a tu correo.`, { theme: "colored" });
       setCodigoEnviado(true);
       setValue('codigo_reg', '');
     } catch (error) {
@@ -114,6 +114,23 @@ export const CreateAccount = () => {
     return () => clearTimeout(timer);
   }, [emailError, phoneError, passwordError]);
 
+
+  if(phoneError){
+    toast.error(`${phoneError}`, {theme: "colored"})
+  }
+
+  if(emailError){
+    toast.error(`${emailError}`, {theme: "colored"})
+  }
+
+  if(passwordError){
+    toast.error(`${passwordError}`, {theme: "colored"})
+  }
+
+  if(errors.codigo_reg){
+    toast.error(`El campo de código es requerido`, {theme: "colored"})
+  }
+
   return (
     <div className="CreateAccount">
       <div className="CreateAccount-container">
@@ -126,13 +143,12 @@ export const CreateAccount = () => {
 
             <label htmlFor="email" className="label">Email</label>
             <input type="text" id="email" placeholder="name@example.com" className="input input-email" {...register('eml_reg', { required: true, validate: validateEmail })} />
-            {emailError && <span className="error">{emailError}</span>}
+
 
             {codigoEnviado && !codigoValido && (
               <div>
                 <label htmlFor="codigo" className="label">Código</label>
                 <input type="text" id="codigo" placeholder="Código de validación" className="input input-codigo" {...register('codigo_reg', { required: true })} />
-                {errors.codigo_reg && <span className="error">El campo de código es requerido</span>}
               </div>
             )}
 
@@ -146,11 +162,9 @@ export const CreateAccount = () => {
                   e.preventDefault();
                 }
               }} />
-            {phoneError && <span className="error">{phoneError}</span>}
 
             <label htmlFor="password" className="label">Password</label>
             <input type="password" id="password" placeholder="************" className="input input-password" {...register('pwd_reg', { required: true, validate: validatePassword })} />
-            {passwordError && <span className="error">{passwordError}</span>}
           </div>
 
           {!codigoEnviado && (

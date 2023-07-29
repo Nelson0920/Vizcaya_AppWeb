@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { loginUser } from '../api/register.api';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,7 @@ const Login = () => {
 				cookies.set('rol_reg', user.rol_reg, { path: '/' });
 				cookies.set('cell_reg', user.cell_reg, { path: '/' });
 				cookies.set('module', user.module, { path: '/' });
-				toast.success('Login successful');
+				toast.success('Inicio de sesión exitoso', {theme: "colored",});
 			} else {
 				toast.error('Usuario no encontrado', {theme: "colored",});
 			}

@@ -4,6 +4,7 @@ import { createProduct, createAuditProduct } from '../api/products.api.js';
 import { useNavigate } from 'react-router-dom';
 import '@styles/CreateProduct.scss';
 import Cookies from 'universal-cookie';
+import { ToastContainer, toast } from 'react-toastify';
 
 const cookies = new Cookies()
 
@@ -19,9 +20,13 @@ const CreateProduct = () => {
 
     const onSubmit = async (data) => {
         try {
+            if (!selectedFile) {
+                // Si no se ha seleccionado ningún archivo, mostramos un mensaje de error
+                toast.error('Debes seleccionar una imagen antes de continuar.', {theme: "colored"})
+                return;
+            }
             const createdProduct = await createProduct(data, selectedFile);
 
-            console.log(createdProduct.data.id)
             // Obtener el id del producto creado y el id del usuario desde la cookie
             const productId = parseInt(createdProduct.data.id);
             const userId = parseInt(cookies.get('id'));
@@ -33,8 +38,8 @@ const CreateProduct = () => {
                 action: 'C'
             };
             await createAuditProduct(auditData);
+            toast.success(`Producto actualizado satisfactoriamente`, {theme: "colored"})
 
-            alert('Producto creado satisfactoriamente');
         } catch (error) {
             console.error(error);
         }
@@ -48,6 +53,22 @@ const CreateProduct = () => {
         nav('/view-admin');
     }
 
+    if(errors.name){
+        toast.error(`${errors.name.message}`, {theme: "colored"})
+    }
+
+    if(errors.price){
+        toast.error(`${errors.price.message}`, {theme: "colored"})
+    }
+    
+    if(errors.quantity){
+        toast.error(`${errors.quantity.message}`, {theme: "colored"})
+    }
+    
+    if(errors.description){
+        toast.error(`${errors.description.message}`, {theme: "colored"})
+    }
+
     return (
         <div className="Login">
             <button onClick={goHome} className="home-button">
@@ -55,6 +76,7 @@ const CreateProduct = () => {
             </button>
             <div className="product-container">
                 <h1 className="titleP">Crear productos</h1>
+                <ToastContainer />
                 <form onSubmit={handleSubmit(onSubmit)} className="form" encType="multipart/form-data">
                     <label htmlFor="name" className="label">
                         Nombre del producto
@@ -79,7 +101,6 @@ const CreateProduct = () => {
                             },
                         })}
                     />
-                    {errors.name && <span className="error">{errors.name.message}</span>}
 
                     <label htmlFor="price" className="label">
                         Precio del producto
@@ -91,7 +112,7 @@ const CreateProduct = () => {
                         {...register('price', {
                             required: 'El campo de precio es requerido',
                             pattern: {
-                                value: /^(\d+([.]\d{0,2})?)?$/, // Expresión regular para permitir números enteros o decimales con hasta dos dígitos después del separador
+                                value: /^(\d+([.]\d{0,2})?)?$/,
                                 message: 'Ingresa un valor de precio válido',
                             },
                         })}
@@ -106,8 +127,6 @@ const CreateProduct = () => {
                         }}
                     />
 
-
-                    {errors.price && <span className="error">{errors.price.message}</span>}
 
                     <label htmlFor="quantity" className="label">
                         Cantidad de productos
@@ -129,7 +148,6 @@ const CreateProduct = () => {
                             }
                         }}
                     />
-                    {errors.quantity && <span className="error">{errors.quantity.message}</span>}
 
                     <label htmlFor="category" className="label">
                         Categoria del producto
@@ -163,7 +181,6 @@ const CreateProduct = () => {
                             },
                         })}
                     />
-                    {errors.description && <span className="error">{errors.description.message}</span>}
 
                     <label htmlFor="file" className="label">
                         Imagen del producto
@@ -175,7 +192,6 @@ const CreateProduct = () => {
                         onChange={handleImageChange}
                         className="input input-email"
                     />
-                    {errors.image && <span className="error">El campo de imagen es requerido</span>}
 
                     <input type="submit" className="primary-button login-button" value="Crear" />
                 </form>

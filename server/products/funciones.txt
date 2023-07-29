@@ -1,18 +1,3 @@
-CREATE OR REPLACE FUNCTION on_product_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    INSERT INTO products_deletedproduct (nam_prd, prc_prd, img_prd, desc_prd, qty_prd, fec_prd, cat_prd_id, del_prd)
-    VALUES (OLD.nam_prd, OLD.prc_prd, OLD.img_prd, OLD.desc_prd, OLD.qty_prd, OLD.fec_prd, OLD.cat_prd_id, OLD.del_prd);
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER product_delete_trigger
-AFTER DELETE ON products_product
-FOR EACH ROW
-EXECUTE FUNCTION on_product_delete();
-
-
 -- Esta es la función que se ejecuta cuando un producto es eliminado.
 -- Recibe un "OLD" row, que representa el registro del producto que está siendo eliminado.
 CREATE OR REPLACE FUNCTION on_product_delete()
@@ -39,23 +24,6 @@ EXECUTE FUNCTION on_product_delete();
 
 
 
-
-CREATE OR REPLACE FUNCTION on_product_qty_update()
-RETURNS TRIGGER AS $$
-BEGIN
-    IF NEW.qty_prd = 0 THEN
-        NEW.del_prd = 0;
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER product_qty_update_trigger
-BEFORE UPDATE ON products_product
-FOR EACH ROW
-EXECUTE FUNCTION on_product_qty_update();
-
-
 -- Esta es la función que se ejecuta cuando se actualiza un producto.
 -- Recibe un "NEW" row, que representa el registro actualizado del producto.
 CREATE OR REPLACE FUNCTION on_product_qty_update()
@@ -80,3 +48,415 @@ CREATE TRIGGER product_qty_update_trigger
 BEFORE UPDATE ON products_product
 FOR EACH ROW
 EXECUTE FUNCTION on_product_qty_update();
+
+____________________________________________________________
+____________________________________________________________
+
+
+
+CREATE OR REPLACE FUNCTION on_product_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO products_deletedproduct (nam_prd, prc_prd, img_prd, desc_prd, qty_prd, fec_prd, cat_prd_id, del_prd)
+    VALUES (OLD.nam_prd, OLD.prc_prd, OLD.img_prd, OLD.desc_prd, OLD.qty_prd, OLD.fec_prd, OLD.cat_prd_id, OLD.del_prd);
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER product_delete_trigger
+AFTER DELETE ON products_product
+FOR EACH ROW
+EXECUTE FUNCTION on_product_delete();
+
+
+
+
+CREATE OR REPLACE FUNCTION on_product_qty_update()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.qty_prd = 0 THEN
+        NEW.del_prd = 0;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER product_qty_update_trigger
+BEFORE UPDATE ON products_product
+FOR EACH ROW
+EXECUTE FUNCTION on_product_qty_update();
+
+
+
+CREATE TABLE IF NOT EXISTS audit_log (
+    id SERIAL PRIMARY KEY,
+    table_name VARCHAR(255),
+    action VARCHAR(10),
+    user_id VARCHAR(255),
+    created_at TIMESTAMP DEFAULT NOW(),
+    data JSONB
+);
+
+-- Crear la función audit_log_trigger
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS $$
+DECLARE
+    audit_user VARCHAR;
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        audit_user := current_user;
+    ELSIF (TG_OP = 'UPDATE') THEN
+        audit_user := current_user;
+    ELSIF (TG_OP = 'INSERT') THEN
+        audit_user := current_user;
+    END IF;
+
+    -- Verificar si el usuario es un superusuario
+    IF current_user = 'postgres' THEN
+        audit_user := 'Superuser';
+    END IF;
+
+    -- Insertar el registro en la tabla audit_log
+    INSERT INTO audit_log (table_name, action, user_id, data)
+    VALUES (TG_TABLE_NAME, TG_OP, audit_user, row_to_json(NEW));
+
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+________________________________________________________________
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_product', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_product', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_product', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON products_product
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('audit_log', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('audit_log', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('audit_log', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON audit_log
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_orderdetail', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_orderdetail', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_orderdetail', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON products_orderdetail
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_order', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_order', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_order', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON products_order
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_category', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_category', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_category', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON products_category
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_comment', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_comment', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_comment', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON products_comment
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_deletedproduct', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_deletedproduct', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_deletedproduct', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON products_deletedproduct
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_productaudit', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_productaudit', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_productaudit', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON products_productaudit
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_featuredproduct', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_featuredproduct', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('products_featuredproduct', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON products_featuredproduct
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_module', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_module', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_module', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON register_module
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_client', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_client', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_client', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON register_client
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_role', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_role', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_role', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON register_role
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();
+
+
+
+CREATE OR REPLACE FUNCTION audit_log_trigger()
+RETURNS TRIGGER AS
+$$
+BEGIN
+    IF (TG_OP = 'DELETE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_user', 'DELETE', current_user);
+    ELSIF (TG_OP = 'UPDATE') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_user', 'UPDATE', current_user);
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO audit_log (table_name, action, user_id)
+        VALUES ('register_user', 'INSERT', current_user);
+    END IF;
+    RETURN NULL;
+END;
+$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER audit_log_trigger()
+AFTER INSERT OR UPDATE OR DELETE ON register_user
+FOR EACH ROW
+EXECUTE FUNCTION audit_log_trigger();

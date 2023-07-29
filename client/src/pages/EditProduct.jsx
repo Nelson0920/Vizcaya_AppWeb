@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import ProductEditItem from '@components/ProductEditItem';
-import { deleteProductAdmin, deleteProduct, updateProduct, getProductById, restoreProduct, createAuditProduct} from '../api/products.api.js';
+import { updateProduct, getProductById, createAuditProduct } from '../api/products.api.js';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAllProducts } from "../api/products.api";
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import '@styles/EditProduct.scss';
 import Cookies from 'universal-cookie';
-
+import { ToastContainer, toast } from 'react-toastify';
 
 const cookies = new Cookies()
 
 export const EditProduct = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { id } = useParams();
-  const { idlt } = useParams();
-  const { idlta } = useParams();
-  const { idrt } = useParams();
-
   const nav = useNavigate();
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -32,7 +28,7 @@ export const EditProduct = () => {
       try {
         const productData = await getProductById(id);
         setProduct(productData);
-        reset(productData); // Actualizar los valores del formulario con los nuevos datos del producto
+        reset(productData);
       } catch (error) {
         console.error(error);
       }
@@ -52,57 +48,6 @@ export const EditProduct = () => {
     }
     loadProducts();
   }, []);
-  //Eliminacion logica
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const dato = await deleteProduct(idlt);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchProduct();
-  }, [idlt]);
-
-  //eliminacion definitiva del admin
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const dato = await deleteProductAdmin(idlta);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchProduct();
-  }, [idlt]);
-
-  //restauracion de la eliminacion logica
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const dato = await restoreProduct(idrt);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchProduct();
-  }, [idrt]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await getAllProducts();
-        setProducts(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   useEffect(() => {
     const filteredProducts = products.filter((product) =>
@@ -113,21 +58,24 @@ export const EditProduct = () => {
 
   const onSubmit = async (data) => {
     try {
-      await updateProduct(id, data, selectedFile);
-      alert("Producto actualizado satisfactoriamente");
+      if (!selectedFile) {
+        toast.error('Debes seleccionar una imagen antes de continuar.', { theme: "colored" })
+        return;
+      }
 
-      // Obtener el id del usuario desde la cookie
+      await updateProduct(id, data, selectedFile);
+      toast.success(`Producto ${product.nam_prd} actualizado satisfactoriamente`, { theme: "colored" });
+
       const userId = parseInt(cookies.get('id'));
 
-      // Crear la auditoría con la acción de actualización (U)
       const auditData = {
-        product_id: parseInt(id), // Convertir id a número si no lo está ya
+        product_id: parseInt(id),
         user_id: userId,
         action: 'U',
       };
       await createAuditProduct(auditData);
 
-      window.location.reload(); // Refrescar la página
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -145,6 +93,29 @@ export const EditProduct = () => {
     setNameFilter(event.target.value);
   };
 
+  const categoryMap = {
+    "electrico": 2,
+    "mecanico": 3,
+    "construcción": 4
+  };
+
+  if (errors.name) {
+    toast.error(`${errors.name.message}`, { theme: "colored" })
+  }
+
+  if (errors.price) {
+    toast.error(`${errors.price.message}`, { theme: "colored" })
+  }
+
+  if (errors.quantity) {
+    toast.error(`${errors.quantity.message}`, { theme: "colored" })
+  }
+
+  if (errors.description) {
+    toast.error(`${errors.description.message}`, { theme: "colored" })
+  }
+
+
   return (
     <div>
       <div className="EditProduct">
@@ -152,35 +123,87 @@ export const EditProduct = () => {
           🡸 Volver
         </button>
         <div className="product-container">
-          <h1 className="titleP">Edit Product</h1>
+          <h1 className="titleP">Editar Producto</h1>
+          <ToastContainer />
           {product && (
             <form onSubmit={handleSubmit(onSubmit)} className="form" encType='multipart/form-data'>
-              <label htmlFor="name" className="label">Name of Product</label>
-              <input type="text" id='name' className="input input-email" defaultValue={product.nam_prd} {...register('name', { required: true })} />
-              {errors.name && <span className="error">The name field is required</span>}
+              <label htmlFor="name" className="label">Nombre del producto</label>
+              <input
+                type="text"
+                id='name'
+                className="input input-email"
+                defaultValue={product.nam_prd}
+                {...register('name', {
+                  required: 'El campo de nombre es requerido',
+                  minLength: {
+                    value: 6,
+                    message: 'El nombre debe tener mínimo 6 caracteres',
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: 'El nombre debe tener máximo 40 caracteres',
+                  },
+                  pattern: {
+                    value: /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]*$/,
+                    message: 'El nombre solo puede contener letras, números y caracteres especiales',
+                  },
+                })}
+              />
 
-              <label htmlFor="price" className="label">Price of Product</label>
-              <input type="number" id='price' className="input input-email" defaultValue={product.prc_prd} {...register('price', { required: true })} />
-              {errors.price && <span className="error">The price field is required</span>}
+              <label htmlFor="price" className="label">Precio del producto</label>
+              <input type="number" id='price' className="input input-email" defaultValue={product.prc_prd}
+                {...register('price', {
+                  required: 'El campo de precio es requerido',
+                  pattern: {
+                    value: /^(\d+([.]\d{0,2})?)?$/,
+                    message: 'Ingresa un valor de precio válido',
+                  },
+                })}
+                onKeyPress={(e) => {
+                  const keyCode = e.keyCode || e.which;
+                  const keyValue = String.fromCharCode(keyCode);
+                  const isValidInput = /^[0-9.]+$/.test(keyValue); // Incluye la coma y el punto como caracteres válidos
 
-              <label htmlFor="quantity" className="label">Quantity of Products</label>
-              <input type="number" id='quantity' className="input input-email" defaultValue={product.qty_prd} {...register('quantity')} />
+                  if (!isValidInput) {
+                    e.preventDefault();
+                  }
+                }}
+              />
 
-              <label htmlFor="category" className="label">Category of Product</label>
-              <select name="niv_acc" id="category" className="form-select" tabIndex="1" defaultValue={product.cat_prd} {...register('category', { required: true })}>
-                <option value="2">Electrico</option>
-                <option value="3">Mecanico</option>
-                <option value="4">Construcción</option>
+              <label htmlFor="quantity" className="label">Cantidad de productos</label>
+              <input type="number" id='quantity' className="input input-email" defaultValue={product.qty_prd}
+                {...register('quantity', {
+                  required: 'El campo de cantidad es requerido',
+                })} />
+
+              <label htmlFor="category" className="label">Categoria de productos</label>
+              <select name="category" id="category" className="form-select" tabIndex="1" defaultValue={categoryMap[product.cat_prd]}
+                {...register('category', { required: true })}>
+                <option value={2}>Electrico</option>
+                <option value={3}>Mecanico</option>
+                <option value={4}>Construcción</option>
               </select>
 
-              <label className="label">Description</label>
-              <textarea id="description" placeholder="Product Description" className="input" defaultValue={product.desc_prd} {...register('description')} />
+              <label className="label">Descripcion</label>
+              <textarea id="description" placeholder="Product Description" className="input" defaultValue={product.desc_prd}
+                {...register('description', {
+                  required: 'El campo de descripción es requerido',
+                  minLength: {
+                    value: 10,
+                    message: 'La descripción debe tener un mínimo de 10 caracteres',
+                  },
+                  maxLength: {
+                    value: 60,
+                    message: 'La descripción debe tener un máximo de 60 caracteres',
+                  },
+                })}
+              />
 
-              <label htmlFor="file" className="label">Image of Product</label>
+              <label htmlFor="file" className="label">Imagen del producto</label>
               <input type="file" id='file' name="file" onChange={handleImageChange} className="input input-email" />
-              {errors.image && <span className="error">The image field is required</span>}
+              {errors.image && <span className="error">El campo de imagen es requerido</span>}
+              <input type="submit" className="primary-button login-button" value="Actualizar" />
 
-              <input type="submit" className="primary-button login-button" value="Update" />
             </form>
           )}
         </div>
@@ -214,3 +237,5 @@ export const EditProduct = () => {
     </div>
   );
 };
+
+export default EditProduct;
