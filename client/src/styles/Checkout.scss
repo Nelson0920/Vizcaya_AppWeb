@@ -92,9 +92,6 @@
     margin: 0;
   }
 }
-
-
-
 .CheckoutForm,
 .CardForm {
   display: flex;
@@ -126,27 +123,37 @@
 
 .CheckoutForm input,
 .CardForm input {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  font-size: 1rem;
+  background-color: var(--background-inputs);
+  border: none;
+  border-radius: 8px;
+  height: 30px;
+  font-size: var(--md);
+  padding: 6px;
+  outline: none;
+}
+
+.CheckoutForm input:focus,
+.CardForm input:focus {
+  border: 1px solid var(--hospital-green);
 }
 
 .CheckoutForm button[type="submit"],
 .CardForm button[type="submit"] {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--hospital-green);
+  border-radius: 8px;
   border: none;
-  border-radius: 3px;
-  font-size: 1rem;
+  color: var(--white);
+  width: 100%;
   cursor: pointer;
+  font-size: var(--md);
+  font-weight: bold;
+  height: 50px;
   transition: background-color 0.3s;
 }
 
 .CheckoutForm button[type="submit"]:hover,
 .CardForm button[type="submit"]:hover {
-  background-color: #0056b3;
+  background-color: var(--orange-buttons);
 }
 
 .CheckoutFormsContainer {
@@ -155,8 +162,26 @@
   justify-content: center;
 }
 
-
 .PayPalButton {
   margin-left: 15%;
   margin-top: -50px;
 }
+.pay-button {
+  margin-top: 20px;
+}
+
+#city , #expiryMonth , #estado , #expiryYear {
+  font-size: var(--md); /* Tamaño de fuente */
+  padding: 10px; /* Espaciado interno del select */
+  width: 100%; /* Ancho del select (ajústalo según tus necesidades) */
+  max-width: 400px; /* Máximo ancho permitido para el select */
+  height: 50px; /* Altura del select (ajústala según tus necesidades) */
+  border: 1px solid #ccc; /* Borde del select */
+  border-radius: 8px; /* Radio de las esquinas del select */
+  background-color: var(--background-inputs); /* Color de fondo */
+  color: #000; /* Color del texto dentro del select */
+  outline: none; /* Elimina el contorno al seleccionar el elemento */
+}
+
+
+

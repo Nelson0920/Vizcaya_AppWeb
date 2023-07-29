@@ -20,7 +20,7 @@ export const ShoppingHistory = () => {
         const response = await getOrdersByClientId(clientId);
         setShoppingHistory(response.data);
       } catch (error) {
-        console.log('Error fetching shopping history:', error);
+        console.log('Error al obtener el historial de compras:', error);
       }
     };
 

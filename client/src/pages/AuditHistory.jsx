@@ -15,7 +15,7 @@ export const AuditHistory = () => {
                 setAuditData(response.data)
             })
             .catch(error => {
-                console.error('Error fetching audit data:', error)
+                console.error('Error al obtener datos de auditoría:', error)
             })
     }, [])
 
