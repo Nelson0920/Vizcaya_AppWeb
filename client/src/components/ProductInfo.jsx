@@ -6,6 +6,7 @@ import AppContext from '../context/AppContext';
 import '@styles/ProductInfo.scss';
 import Cookies from 'universal-cookie';
 import { toast } from 'react-toastify';
+import { AiOutlineSend } from 'react-icons/ai';
 
 const cookies = new Cookies();
 
@@ -141,8 +142,8 @@ const ProductInfo = ({ product, onClose }) => {
           <div className="product-info">
             <div className="info-row">
               <p className="product-Title">{product.nam_prd}</p>
+              <p className="product-Price">${product.prc_prd}</p>
               <div><p className='startext'>Puntuacion: <span className='star'>★</span> {scaledStars}</p></div>
-              <p className="product-Price">{product.prc_prd}</p>
               <div className="rating">
                 {/* Interfaz para mostrar las estrellas y permitir al usuario cambiar la valoración */}
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -180,7 +181,7 @@ const ProductInfo = ({ product, onClose }) => {
                 placeholder="Escribe un comentario de este producto"
               />
               <button onClick={handleSendMessage} disabled={isSendingMessage || isMessageExceeded || isMessageTooShort}>
-                {isSendingMessage ? 'Enviando...' : 'Enviar'}
+                {isSendingMessage ? 'Enviando...' : <AiOutlineSend/>}
               </button>
             </div>
             <div className="chat-messages">

@@ -116,12 +116,12 @@ export const MainRoute = () => {
 
                     <section className="featured-products">
                         <h2 className="featured-products-title">Productos Destacados</h2>
-                        <div className="product-list">
+                        <div className="product-lista">
                             <div className="product-item">
                                 <img
                                     src={publi4}
                                     alt="Producto 1"
-                                    className="product-image"
+                                    className="producto-image"
                                 />
                                 <h3 className="product-name">Taladro inalámbrico</h3>
                                 <p className="product-price">$99.99</p>
@@ -130,7 +130,7 @@ export const MainRoute = () => {
                                 <img
                                     src={publi5}
                                     alt="Producto 2"
-                                    className="product-image"
+                                    className="producto-image"
                                 />
                                 <h3 className="product-name">Martillo de carpintero</h3>
                                 <p className="product-price">$19.99</p>
@@ -139,7 +139,7 @@ export const MainRoute = () => {
                                 <img
                                     src={publi6}
                                     alt="Producto 3"
-                                    className="product-image"
+                                    className="producto-image"
                                 />
                                 <h3 className="product-name">Cinta métrica</h3>
                                 <p className="product-price">$9.99</p>
