@@ -20,12 +20,12 @@ const Menu = () => {
 			<ul>
 				{(cookies.get('module').dashboard) ?
 				<li>
-					<a href="/view-admin" className="title">Admin</a>
+					<a href="/view-admin" className="title">Administrador</a>
 				</li>
 				: null}
 				{(cookies.get('module').settings) ?
 				<li>
-					<a href="/user-settings" className="title">Settings</a>
+					<a href="/user-settings" className="title">Ajustes</a>
 				</li>
 				: null}
 				{(cookies.get('module').shopping_history) ?
@@ -34,7 +34,7 @@ const Menu = () => {
 				</li>
 				: null}
 				<li>
-					<a onClick={handleSignOut}>Sign out</a>
+					<a onClick={handleSignOut}>Salir</a>
 				</li>
 			</ul>
 		</div>

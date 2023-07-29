@@ -74,13 +74,13 @@ export const SalesHistory = () => {
             <h2>{user.nam_reg}</h2>
             {user.orders.map((order) => (
               <div key={order.id} className="order">
-                <p>Date: {new Date(order.fec_ord).toLocaleString()}</p>
+                <p>Datos: {new Date(order.fec_ord).toLocaleString()}</p>
                 <table>
                   <thead>
                     <tr>
-                      <th>Product</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
+                      <th>Producto</th>
+                      <th>Precio</th>
+                      <th>cantidad</th>
                       <th>Subtotal</th>
                     </tr>
                   </thead>

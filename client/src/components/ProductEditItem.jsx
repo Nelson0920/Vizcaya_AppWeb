@@ -98,7 +98,7 @@ const ProductEditItem = ({ product }) => {
           <div className="admin-buttons">
             {product.del_prd === 1 ? (
               <figure onClick={() => handleDelete(product)}>
-                <p title="Edliminar logicamente">👁️‍🗨️</p>
+                <p title="Eliminar logicamente">👁️‍🗨️</p>
               </figure>
             ) : (
               <figure onClick={() => handleRestore(product)}>

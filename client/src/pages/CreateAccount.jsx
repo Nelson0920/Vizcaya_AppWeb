@@ -134,14 +134,14 @@ export const CreateAccount = () => {
   return (
     <div className="CreateAccount">
       <div className="CreateAccount-container">
-        <h1 className="titleA">My account</h1>
+        <h1 className="titleA">Mi cuenta</h1>
         <ToastContainer />
         <form onSubmit={onSubmit} className="form">
           <div>
-            <label htmlFor="name" className="label">Name</label>
+            <label htmlFor="name" className="label">Nombre</label>
             <input type="text" id="name" placeholder="Full Name" className="input input-name" {...register('nam_reg', { required: true })} />
 
-            <label htmlFor="email" className="label">Email</label>
+            <label htmlFor="email" className="label">Correo</label>
             <input type="text" id="email" placeholder="name@example.com" className="input input-email" {...register('eml_reg', { required: true, validate: validateEmail })} />
 
 
@@ -152,7 +152,7 @@ export const CreateAccount = () => {
               </div>
             )}
 
-            <label htmlFor="cellphone" className="label">Cellphone</label>
+            <label htmlFor="cellphone" className="label">Numero de telefono</label>
             <input type="text" id="cellphone" placeholder="+58400-0000000" maxLength={11} className="input input-email" {...register('cell_reg', { required: true, validate: validatePhoneNumber })}
               onKeyPress={(e) => {
                 const keyCode = e.keyCode || e.which;
@@ -163,7 +163,7 @@ export const CreateAccount = () => {
                 }
               }} />
 
-            <label htmlFor="password" className="label">Password</label>
+            <label htmlFor="password" className="label">Contraseña</label>
             <input type="password" id="password" placeholder="************" className="input input-password" {...register('pwd_reg', { required: true, validate: validatePassword })} />
           </div>
 
@@ -180,7 +180,7 @@ export const CreateAccount = () => {
           )}
 
           <input type="button" value="Login" className="secondary-button signup-button" onClick={login} />
-          <button onClick={goHome} className="home-button">🡸 Home</button>
+          <button onClick={goHome} className="home-button">🡸 Inicio</button>
         </form>
       </div>
     </div>

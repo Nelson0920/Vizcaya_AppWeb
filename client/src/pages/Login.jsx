@@ -62,11 +62,11 @@ const Login = () => {
 	return (
 		<div className="Login">
 			<div className="Login-container">
-				<h1 className="titleL">Login</h1>
+				<h1 className="titleL">Iniciar sesión</h1>
 				<ToastContainer />
 				<form action="/" className="form" onSubmit={onSubmit}>
 					<label htmlFor="email" className="label">
-						Email address
+						Correo electrónico
 					</label>
 					<input
 						type="text"
@@ -83,7 +83,7 @@ const Login = () => {
 					)}
 
 					<label htmlFor="password" className="label">
-						Password
+						Correo
 					</label>
 					<input
 						type="password"
@@ -102,10 +102,10 @@ const Login = () => {
 					<input type="submit" className="primary-button login-button" value="Login" />
 				</form>
 				<button onClick={signup} className="secondary-button signup-button">
-					Sign up
+					Salir
 				</button>
 				<button onClick={goHome} className="home-button">
-					🡸 Home
+					🡸 Inicio
 				</button>
 			</div>
 		</div>
