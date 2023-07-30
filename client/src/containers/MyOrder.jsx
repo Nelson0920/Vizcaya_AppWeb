@@ -74,7 +74,7 @@ const MyOrder = () => {
         <aside className="MyOrder">
           <div className="title-container">
             <img src={iconOrder} alt="arrow" className="imgExit" onClick={handleToggleOrders} />
-            <p className="title">My order</p>
+            <p className="title">Mi Orden</p>
           </div>
           <div className="my-order-content">
             {state.cart.map((product, index) => (
@@ -113,7 +113,7 @@ const MyOrder = () => {
             <p>${sumTotal()}</p>
           </div>
           <button className="primary-button" onClick={handleCheckout}>
-            Checkout
+            Comprar
           </button>
         </aside>
       )}

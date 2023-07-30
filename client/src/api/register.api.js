@@ -7,7 +7,7 @@ const coneccionApiLogin = axios.create({
     baseURL: 'http://127.0.0.1:3000/register/api/v1/login/',
 })
 
-export const getAllRegister = () => coneccionApiRegister.get('/')
+export const getAllRegister = () => coneccionApiRegister.get('/users-list/')
 
 export const createRegister = async (data) => {
     try {

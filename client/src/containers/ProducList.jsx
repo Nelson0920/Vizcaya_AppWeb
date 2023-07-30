@@ -96,13 +96,13 @@ const ProductList = () => {
             <div className="price-filter">
               <TextField
                 id="name"
-                label="Name"
+                label="Nombre"
                 variant="outlined"
                 onChange={handleNameChange}
                 sx={{ minWidth: 500 }} // Cambia el tamaño ajustando el ancho mínimo
               />
               <TextField
-                label="Min Price"
+                label="Precio Min"
                 value={filterMinPrice}
                 onChange={handleMinPriceChange}
                 name="minPrice"
@@ -111,7 +111,7 @@ const ProductList = () => {
                 sx={{ minWidth: 350 }} // Cambia el tamaño ajustando el ancho mínimo
               />
               <TextField
-                label="Max Price"
+                label="Precio Max"
                 value={filterMaxPrice}
                 onChange={handleMaxPriceChange}
                 name="maxPrice"
@@ -127,7 +127,7 @@ const ProductList = () => {
                 value={filterCategory}
                 onChange={handleCategoryChange}
                 renderInput={(params) => (
-                  <TextField {...params} label="Category" variant="outlined" />
+                  <TextField {...params} label="Categoria" variant="outlined" />
                 )}
               />
             </div>

@@ -14,6 +14,8 @@ import { ShoppingHistory } from '@pages/ShoppingHistory';
 import { SalesHistory } from '@pages/SalesHistory';
 import { EditUserProfile } from '@pages/EditUserProfile';
 import { AuditHistory } from '@pages/AuditHistory';
+import { UserList } from '@pages/UserList';
+import { ProductList } from '@pages/ProductsList';
 import NotFound from '@pages/NotFound';
 import CreateProduct from '@pages/CreateProduct';
 import AppContext from '@context/AppContext';
@@ -76,6 +78,14 @@ export const App = () => {
                             <Route exact path="/audit-history" element={<AuditHistory />} />
                         </Route>
 
+                        <Route element={<ProtectedRoute isAllowed={!!user.module && user.module.users_list} />}>
+                            <Route exact path="/users-list" element={<UserList />} />
+                        </Route>
+
+                        <Route element={<ProtectedRoute isAllowed={!!user.module && user.module.products_list} />}>
+                            <Route exact path="/products_list" element={<ProductList />} />
+                        </Route>
+
                         <Route exact path="/create-product" element={
                             <ProtectedRoute isAllowed={!!user.module && user.module.insert_prd} redirectTo="/home">
                                 <CreateProduct />
@@ -87,7 +97,6 @@ export const App = () => {
                             <Route exact path="/edit-product/:id" element={<EditProduct />} />
                             <Route exact path="/delete-product/:idlt" element={<EditProduct />} />
                             <Route exact path="/restore-product/:idrt" element={<EditProduct />} />
-                            <Route exact path="/delete-product-admin/:idlta" element={<EditProduct />} />
                         </Route>
                         <Route path="*" element={<NotFound />} />
                     </Routes>

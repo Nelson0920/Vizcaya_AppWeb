@@ -33,7 +33,7 @@ const Header = () => {
 			<div className="navbar-right">
 				<ul>
 					<li className="navbar-email" >
-						{`USER: ${cookies.get('nam_reg')} // ${cookies.get('eml_reg')}`}
+						{`Usuario: ${cookies.get('nam_reg')} // ${cookies.get('eml_reg')}`}
 					</li>
 					<li className='createProductsButton'>
 						<Button variant="contained" onClick={handleToggle}>Menu</Button>

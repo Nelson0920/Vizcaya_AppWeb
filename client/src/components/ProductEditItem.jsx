@@ -14,29 +14,9 @@ const ProductEditItem = ({ product }) => {
     window.location.reload(); // Refrescar la página
   };
 
-  const handleDelete = async (item) => {
-    // Obtener el id del usuario desde la cookie
-    const userId = parseInt(cookies.get('id'));
-
-    // Crear la auditoría con la acción de eliminación (D)
-    const auditData = {
-      product_id: parseInt(item.id), // Convertir id a número si no lo está ya
-      user_id: userId,
-      action: 'D',
-    };
-
-    try {
-      // Crear la auditoría antes de realizar la eliminación lógica
-      await createAuditProduct(auditData);
-
-      // Realizar la eliminación lógica del producto
-      nav(`/delete-product/${item.id}`);
-      setTimeout(() => {
-        nav(-1); // Redirigir a la página anterior después de 1000 milisegundos (1 segundo)
-        window.location.reload(); // Refrescar la página
-      }, 1000);
-    } catch (error) {
-      console.error(error);
+  const handleDelete = (item) => {
+    if (cookies.get('module').delete_prd) {
+      setShowModal(true);
     }
   };
 
@@ -76,13 +56,31 @@ const ProductEditItem = ({ product }) => {
     setShowModal(false);
   };
 
-  const handleConfirmDelete = (item) => {
+  const handleConfirmDelete = async (item) => {
     setShowModal(false);
-    nav(`/delete-product-admin/${item.id}`);
-    setTimeout(() => {
-      nav(-1); // Redirigir a la página anterior después de 1000 milisegundos (1 segundo)
-      window.location.reload(); // Refrescar la página
-    }, 1000);
+    // Obtener el id del usuario desde la cookie
+    const userId = parseInt(cookies.get('id'));
+
+    // Crear la auditoría con la acción de eliminación (D)
+    const auditData = {
+      product_id: parseInt(item.id), // Convertir id a número si no lo está ya
+      user_id: userId,
+      action: 'D',
+    };
+
+    try {
+      // Crear la auditoría antes de realizar la eliminación lógica
+      await createAuditProduct(auditData);
+
+      // Realizar la eliminación lógica del producto
+      nav(`/delete-product/${item.id}`);
+      setTimeout(() => {
+        nav(-1); // Redirigir a la página anterior después de 1000 milisegundos (1 segundo)
+        window.location.reload(); // Refrescar la página
+      }, 1000);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -95,24 +93,22 @@ const ProductEditItem = ({ product }) => {
           <p>${product.prc_prd}</p>
         </div>
         {cookies.get('module').edit_prd && (
+
           <div className="admin-buttons">
-            {product.del_prd === 1 ? (
-              <figure onClick={() => handleDelete(product)}>
-                <p title="Eliminar logicamente">👁️‍🗨️</p>
-              </figure>
-            ) : (
-              <figure onClick={() => handleRestore(product)}>
-                <p title="Restaurar">🔃</p>
-              </figure>
+            {cookies.get('module').delete_prd && (
+              product.del_prd === 1 ? (
+                <figure onClick={() => handleDelete(product)}>
+                  <p title="Eliminar logicamente">❌</p>
+                </figure>
+              ) : (
+                <figure onClick={() => handleRestore(product)}>
+                  <p title="Restaurar">🔃</p>
+                </figure>
+              )
             )}
             <figure onClick={() => handleEdit(product)}>
               <p title="Editar">✏️</p>
             </figure>
-            {cookies.get('module').delete_prd && (
-              <figure onClick={() => handleDeleteAdmin(product)}>
-                <p title="Eliminar definitivamente">❌</p>
-              </figure>
-            )}
           </div>
         )}
       </div>

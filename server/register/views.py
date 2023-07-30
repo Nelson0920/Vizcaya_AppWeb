@@ -19,6 +19,11 @@ def create_register(request):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
+    
 @api_view(['POST'])
 def login(request):
     serializer = LoginSerializer(data=request.data)

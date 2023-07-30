@@ -18,6 +18,8 @@ class Module(models.Model):
     log_usr = models.BooleanField(default=False)
     shopping_history = models.BooleanField(default=False)
     sales_history = models.BooleanField(default=False)
+    users_list = models.BooleanField(default=False)
+    products_list = models.BooleanField(default=False)
     dashboard = models.BooleanField(default=False)
     settings = models.BooleanField(default=False)
     audit = models.BooleanField(default=False)

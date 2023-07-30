@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import ProductEditItem from '@components/ProductEditItem';
 import { updateProduct, getProductById, createAuditProduct } from '../api/products.api.js';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAllProducts } from "../api/products.api";
+import { getAllProducts, deleteProduct, restoreProduct } from "../api/products.api";
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import '@styles/EditProduct.scss';
@@ -15,6 +15,9 @@ const cookies = new Cookies()
 export const EditProduct = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { id } = useParams();
+  const { idlt } = useParams();
+  const { idrt } = useParams();
+
   const nav = useNavigate();
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -28,7 +31,7 @@ export const EditProduct = () => {
       try {
         const productData = await getProductById(id);
         setProduct(productData);
-        reset(productData);
+        reset(productData); // Actualizar los valores del formulario con los nuevos datos del producto
       } catch (error) {
         console.error(error);
       }
@@ -47,6 +50,45 @@ export const EditProduct = () => {
       }
     }
     loadProducts();
+  }, []);
+  //Eliminacion logica
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const dato = await deleteProduct(idlt);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProduct();
+  }, [idlt]);
+
+
+  //restauracion de la eliminacion logica
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const dato = await restoreProduct(idrt);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProduct();
+  }, [idrt]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await getAllProducts();
+        setProducts(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   useEffect(() => {

@@ -102,7 +102,7 @@ const Login = () => {
 					<input type="submit" className="primary-button login-button" value="Login" />
 				</form>
 				<button onClick={signup} className="secondary-button signup-button">
-					Salir
+					Registrate
 				</button>
 				<button onClick={goHome} className="home-button">
 					🡸 Inicio

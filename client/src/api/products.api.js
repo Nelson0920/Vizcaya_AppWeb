@@ -76,13 +76,6 @@ export const restoreProduct = (id) => {
     })
 }
 
-export const deleteProductAdmin = (id) => {
-  return connectionApiProducts.delete(`/${id}/`)
-    .catch(error => {
-      console.log('Error:', error)
-      throw error
-    })
-}
 
 
 export const updateProductQty = (id, difference) => {

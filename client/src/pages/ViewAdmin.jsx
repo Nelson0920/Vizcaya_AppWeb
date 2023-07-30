@@ -1,60 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { getTopProducts, getTopCategoryProducts, getTopSellingMonths, getTotalSalesByMonth } from '../api/products.api';
-import { Link } from 'react-router-dom';
-import Cookies from 'universal-cookie';
-import ApexCharts from 'react-apexcharts';
-import '@styles/ViewAdmin.scss';
+import React, { useEffect, useState } from 'react'
+import { getTopProducts, getTopCategoryProducts, getTopSellingMonths, getTotalSalesByMonth } from '../api/products.api'
+import { Link } from 'react-router-dom'
+import Cookies from 'universal-cookie'
+import ApexCharts from 'react-apexcharts'
+import '@styles/ViewAdmin.scss'
 
-const cookies = new Cookies();
+const cookies = new Cookies()
 
 export const ViewAdmin = () => {
-  const [topProducts, setTopProducts] = useState([]);
-  const [topCategories, setTopCategories] = useState([]);
-  const [topSellingMonths, setTopSellingMonths] = useState([]);
-  const [totalSalesByMonth, setTotalSalesByMonth] = useState([]);
+  const [topProducts, setTopProducts] = useState([])
+  const [topCategories, setTopCategories] = useState([])
+  const [topSellingMonths, setTopSellingMonths] = useState([])
+  const [totalSalesByMonth, setTotalSalesByMonth] = useState([])
 
   useEffect(() => {
-    fetchTopProducts();
-    fetchTopCategories();
-    fetchTopSellingMonths();
-    fetchTotalSalesByMonth();
-  }, []);
+    fetchTopProducts()
+    fetchTopCategories()
+    fetchTopSellingMonths()
+    fetchTotalSalesByMonth()
+  }, [])
 
   const fetchTopProducts = async () => {
     try {
-      const response = await getTopProducts();
-      setTopProducts(response.data);
+      const response = await getTopProducts()
+      setTopProducts(response.data)
     } catch (error) {
-      console.error('Error fetching top products:', error);
+      console.error('Error fetching top products:', error)
     }
-  };
+  }
 
   const fetchTopCategories = async () => {
     try {
-      const response = await getTopCategoryProducts();
-      setTopCategories(response.data);
+      const response = await getTopCategoryProducts()
+      setTopCategories(response.data)
     } catch (error) {
-      console.error('Error fetching top categories:', error);
+      console.error('Error fetching top categories:', error)
     }
-  };
+  }
 
   const fetchTopSellingMonths = async () => {
     try {
-      const response = await getTopSellingMonths();
-      setTopSellingMonths(response.data);
+      const response = await getTopSellingMonths()
+      setTopSellingMonths(response.data)
     } catch (error) {
-      console.error('Error fetching top selling months:', error);
+      console.error('Error fetching top selling months:', error)
     }
-  };
+  }
 
   const fetchTotalSalesByMonth = async () => {
     try {
-      const response = await getTotalSalesByMonth();
-      setTotalSalesByMonth(response.data);
+      const response = await getTotalSalesByMonth()
+      setTotalSalesByMonth(response.data)
     } catch (error) {
-      console.error('Error fetching total sales by month:', error);
+      console.error('Error fetching total sales by month:', error)
     }
-  };
+  }
 
   // Datos para el gráfico de barras de Top 5 Productos Más Vendidos
   const topProductsChartData = {
@@ -73,7 +73,7 @@ export const ViewAdmin = () => {
         data: topProducts.map((product) => product.total_qty_sold),
       },
     ],
-  };
+  }
 
   // Datos para el gráfico de barras de Top 5 Categorías de Productos
   const topCategoriesChartData = {
@@ -92,7 +92,7 @@ export const ViewAdmin = () => {
         data: topCategories.map((category) => category.total_qty_sold),
       },
     ],
-  };
+  }
 
   // Datos para el gráfico de barras de Top 5 Meses de Mayor Venta
   const topSellingMonthsChartData = {
@@ -111,7 +111,7 @@ export const ViewAdmin = () => {
         data: topSellingMonths.map((item) => parseFloat(item.total_sales.toFixed(2))),
       },
     ],
-  };
+  }
 
   // Datos para el gráfico de barras de Ventas Totales por Mes
   const totalSalesByMonthChartData = {
@@ -135,13 +135,15 @@ export const ViewAdmin = () => {
         data: totalSalesByMonth.map((item) => parseFloat(item.total_sales.replace('$', ''))),
       },
     ],
-  };
+  }
 
 
-  let createProduct;
-  let EditProduct;
-  let Sales;
-  let Audit;
+  let createProduct
+  let EditProduct
+  let Sales
+  let Audit
+  let Users
+  let Products
   if (cookies.get('module').insert_prd) {
     createProduct = (
       <div className="sidebar-item">
@@ -149,7 +151,7 @@ export const ViewAdmin = () => {
           Crear Producto
         </Link>
       </div>
-    );
+    )
   }
 
   if (cookies.get('module').edit_prd) {
@@ -159,7 +161,7 @@ export const ViewAdmin = () => {
           Editar Producto
         </Link>
       </div>
-    );
+    )
   }
 
   if (cookies.get('module').sales_history) {
@@ -169,7 +171,7 @@ export const ViewAdmin = () => {
           Historial de Ventas
         </Link>
       </div>
-    );
+    )
   }
   
   if (cookies.get('module').audit) {
@@ -179,7 +181,27 @@ export const ViewAdmin = () => {
           Auditoria de Productos
         </Link>
       </div>
-    );
+    )
+  }
+
+  if (cookies.get('module').users_list) {
+    Products = (
+      <div className="sidebar-item">
+        <Link to="/products_list" className="buttonadmin5">
+          Lista de productos
+        </Link>
+      </div>
+    )
+  }
+
+  if (cookies.get('module').users_list) {
+    Users = (
+      <div className="sidebar-item">
+        <Link to="/users-list" className="buttonadmin5">
+          Lista de usuarios
+        </Link>
+      </div>
+    )
   }
 
   return (
@@ -198,11 +220,8 @@ export const ViewAdmin = () => {
           {EditProduct}
           {Sales}
           {Audit}
-          <div className="sidebar-item">
-            <Link to="/generate-report" className="buttonadmin4">
-              Generar Reporte
-            </Link>
-          </div>
+          {Users}
+          {Products}
         </div>
       </div>
       <div className="content">
@@ -265,5 +284,5 @@ export const ViewAdmin = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

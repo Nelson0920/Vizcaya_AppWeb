@@ -179,7 +179,7 @@ export const CreateAccount = () => {
             <input type="submit" value="Create" className="primary-button login-button" />
           )}
 
-          <input type="button" value="Login" className="secondary-button signup-button" onClick={login} />
+          <input type="button" value="Iniciar sesión" className="secondary-button signup-button" onClick={login} />
           <button onClick={goHome} className="home-button">🡸 Inicio</button>
         </form>
       </div>
