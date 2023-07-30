@@ -94,7 +94,11 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "Django_React_DB_VizcayaApp",
         "USER": "postgres",
+<<<<<<< HEAD
+        "PASSWORD": "admin",
+=======
         "PASSWORD": "123456",
+>>>>>>> e80571c02db91996aee41be90dcf59296d3bf915
         "HOST": "localhost",
         "PORT": "5432",
     }
