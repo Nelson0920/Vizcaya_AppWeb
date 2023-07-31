@@ -71,6 +71,9 @@ export const UserList = () => {
         <table ref={tableRef}>
           <thead>
             <tr>
+              <th colSpan={5} className='titleTable'>Lista de Usuarios</th>
+            </tr>
+            <tr>
               <th>Nombre</th>
               <th>Correo</th>
               <th>Celular</th>

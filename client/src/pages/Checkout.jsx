@@ -6,6 +6,7 @@ import datazip from '../json/zip.json';
 import { sendDataClient } from '../api/buy.api';
 import { updateProductQty, createOrder, createOrderDetail } from '../api/products.api';
 import emailjs from 'emailjs-com';
+import { ToastContainer, toast } from 'react-toastify';
 import '@styles/Checkout.scss';
 import Cookies from 'universal-cookie';
 import { PayPalButton } from 'react-paypal-button-v2';
@@ -51,7 +52,6 @@ export const Checkout = () => {
         const difference = product.qty_prd - quantity;
         try {
           await updateProductQty(product.id, difference);
-          console.log('Actualización exitosa');
         } catch (error) {
           console.error('Error al actualizar la cantidad del producto:', error);
         }
@@ -60,8 +60,7 @@ export const Checkout = () => {
 
     // Enviar correo electrónico al cliente
     await sendEmail();
-
-    alert('¡Compra completada!');
+    toast.success(`¡Compra completada!`, { theme: 'colored' });
   };
 
   // Manejar el cambio de código postal
@@ -133,13 +132,45 @@ export const Checkout = () => {
     return '';
   };
 
+  // Validar la cédula del usuario
+  const validateCedula = (cedula) => {
+    const cedulaNumber = parseInt(cedula, 10);
+    if (isNaN(cedulaNumber) || cedulaNumber < 1 || cedulaNumber > 99999999) {
+      return 'El numero de cedula no es valido';
+    }
+    return '';
+  };
+
+  // Validar el titular de la tarjeta
+  const validateCardHolder = (cardHolder) => {
+    if (!cardHolder.trim()) {
+      return 'Ingresa el titular de la tarjeta.';
+    }
+    return '';
+  };
+
+  // Validar el CVV de la tarjeta
+  const validateCVV = (cvv) => {
+    const cvvNumber = parseInt(cvv, 10);
+    if (isNaN(cvvNumber) || cvv.length !== 3) {
+      return 'El CVV debe ser un número de 3 dígitos.';
+    }
+    return '';
+  };
+
+  // Validar la fecha de vencimiento de la tarjeta
+  const validateExpiryDate = (expiryMonth, expiryYear) => {
+    if (!expiryMonth || !expiryYear) {
+      return 'Selecciona la fecha de vencimiento.';
+    }
+    return '';
+  };
+
   // Enviar los datos del usuario
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const buttonClicked = event.nativeEvent.submitter.getAttribute('name');
-
-    console.log(buttonClicked)
 
     if (buttonClicked === 'payWithCard') {
       setCheckoutStep(2);
@@ -162,23 +193,34 @@ export const Checkout = () => {
   const handleSubmitCard = (e) => {
     e.preventDefault();
 
-    const error = validateCardNumber(cardNumber);
-    setCardError(error);
+    // Validate form fields
+    const cardNumberError = validateCardNumber(cardNumber);
+    const cedulaError = validateCedula(ced_cli);
+    const cardHolderError = validateCardHolder(cardHolder);
+    const cvvError = validateCVV(cvv);
+    const expiryDateError = validateExpiryDate(expiryMonth, expiryYear);
 
-    if (error) {
+    // If any validation errors, show toast messages and return
+    if (
+      cardNumberError ||
+      cedulaError ||
+      cardHolderError ||
+      cvvError ||
+      expiryDateError
+    ) {
+      toast.error(
+        cardNumberError ||
+          cedulaError ||
+          cardHolderError ||
+          cvvError ||
+          expiryDateError,
+        { theme: 'colored' }
+      );
       return;
     }
 
-    const cardData = {
-      cardNumber,
-      cardHolder,
-      expiryMonth,
-      expiryYear,
-      cvv,
-    };
-
+    // Continue with the rest of the payment process
     sendData(dataUser);
-
     handleCheckout();
   };
 
@@ -190,12 +232,13 @@ export const Checkout = () => {
 
     handleCheckout();
     // También puedes mostrar una notificación o redirigir a una página de confirmación.
-    alert('Pago realizado con éxito');
+    toast.success(`Pago realizado con éxito`, { theme: 'colored' });
     setCheckoutStep(3);
   };
 
   const handlePayPalError = (error) => {
     // Manejar errores en el pago de PayPal
+    toast.error(`Error en el pago de PayPal`, { theme: 'colored' });
     console.error('Error en el pago de PayPal:', error);
   };
 
@@ -225,7 +268,6 @@ export const Checkout = () => {
             sub_prd: calculateSubtotal(parseFloat(product.prc_prd), quantity),
           };
           await createOrderDetail(orderDetailData);
-          console.log('Detalle de orden creado');
         }
       }
     } catch (error) {
@@ -333,14 +375,19 @@ export const Checkout = () => {
 
     try {
       await emailjs.send(serviceId, templateId, templateParams, userId);
-      console.log('Correo electrónico enviado con éxito');
+      toast.success(`Correo electrónico con la factura enviado con éxito`, { theme: "colored" });
     } catch (error) {
       console.error('Error al enviar el correo electrónico:', error);
     }
   };
 
+  if(cardError){
+    toast.error(`${cardError}`, { theme: "colored" })
+  }
+
   return (
     <div className="Bigbox">
+      <ToastContainer />
       <div className="boxBackground">
         <div className="box1">
           <button onClick={goHome} className="home-button">
@@ -411,6 +458,7 @@ export const Checkout = () => {
               <input
                 type="text"
                 id="cedula"
+                maxLength={8}
                 placeholder="V-"
                 onChange={(e) => setCedula(e.target.value)}
                 required
@@ -505,7 +553,6 @@ export const Checkout = () => {
                 }}
                 required
               />
-              {cardError && <span className="error">{cardError}</span>}
             </div>
             <div className="form-group">
               <label htmlFor="cardHolder">Titular de la tarjeta:</label>

@@ -65,6 +65,9 @@ export const ProductList = () => {
         <table ref={tableRef}>
           <thead>
             <tr>
+              <th colSpan={5} className='titleTable'>Lista de Productos</th>
+            </tr>
+            <tr>
               <th>Nombre</th>
               <th>Descripción</th>
               <th>Precio</th>

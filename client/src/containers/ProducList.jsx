@@ -25,13 +25,6 @@ const ProductList = () => {
     setFilter(event.target.value.replace(/\s+/g, '').toLowerCase())
   }
 
-  const handleMinPriceChange = (event) => {
-    setFilterMinPrice(event.target.value)
-  }
-
-  const handleMaxPriceChange = (event) => {
-    setFilterMaxPrice(event.target.value)
-  }
 
   const handleCategoryChange = (event, value) => {
     setFilterCategory(value)
@@ -72,6 +65,21 @@ const ProductList = () => {
     setFilteredProducts(updatedProducts)
   }, [filter, filterMinPrice, filterMaxPrice, filterCategory, products])
 
+  
+  const handleMinPriceChange = (e) => {
+    const inputNumber = parseInt(e.target.value);
+    if (!isNaN(inputNumber) && inputNumber >= 0) {
+      setFilterMinPrice(inputNumber);
+    }
+  };
+
+  const handleMaxPriceChange = (e) => {
+    const inputNumber = parseInt(e.target.value);
+    if (!isNaN(inputNumber) && inputNumber >= 0) {
+      setFilterMaxPrice(inputNumber);
+    }
+  };
+
   return (
     <section className="home">
       <div className="publiImg">
@@ -108,7 +116,7 @@ const ProductList = () => {
                 name="minPrice"
                 type="number"
                 variant="outlined"
-                sx={{ minWidth: 350 }} // Cambia el tamaño ajustando el ancho mínimo
+                sx={{ minWidth: 350 }}
               />
               <TextField
                 label="Precio Max"
@@ -117,7 +125,7 @@ const ProductList = () => {
                 name="maxPrice"
                 type="number"
                 variant="outlined"
-                sx={{ minWidth: 350 }} // Cambia el tamaño ajustando el ancho mínimo
+                sx={{ minWidth: 350 }}
               />
             </div>
             <div className="ProductList__filter">

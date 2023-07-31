@@ -40,8 +40,8 @@
 	margin-bottom: 20px;
 }
 
-.product-image {
-	width: 250px;
+.product-image-info {
+	width: 450px;
 	height: auto;
 	object-fit: contain;
 	align-self: flex-start;
@@ -134,6 +134,7 @@
 	border-radius: 10%;
 	border: none;
 	font-size: 20px;
+	cursor: pointer;
 }
 
 .fechacomment {
@@ -165,13 +166,14 @@
 	margin-left:750px;
 	border-radius: 10px;
 	border: none;
-	background-color: #005ad8;
+	background-color: #429757;
 	margin-top: 50px;
 	width: 230px;
 	height: 50px;
 	display: flex;
 	align-items: center;
 	padding: 10px;
+	cursor: pointer;
 }
 
 .add-to-cart-button p {

@@ -45,6 +45,9 @@ export const AuditHistory = () => {
         <table ref={tableRef}>
           <thead>
             <tr>
+              <th colSpan={5} className='titleTable'>Auditoria de Productos</th>
+            </tr>
+            <tr>
               <th>Nombre del Usuario</th>
               <th>Nombre del Producto</th>
               <th>Acción</th>

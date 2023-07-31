@@ -69,6 +69,7 @@ export const SalesHistory = () => {
         />
       </div>
       <div className="sales-history-table" ref={tableRef}>
+        <h2 className='titleTable'>Historial de ventas</h2>
         {filteredSalesHistory.map((user) => (
           <div key={user.id} className="user">
             <h2>{user.nam_reg}</h2>

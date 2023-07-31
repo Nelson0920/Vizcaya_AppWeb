@@ -73,6 +73,9 @@ export const ShoppingHistory = () => {
         <table>
           <thead>
             <tr>
+              <th colSpan={5} className='titleTable'>Historial de Compras</th>
+            </tr>
+            <tr>
               <th>Fecha</th>
               <th>Producto</th>
               <th>Precio</th>

@@ -78,7 +78,7 @@ export const MainRoute = () => {
                     <p className="banner-subtitle">
                         Encuentra todo lo que necesitas para tus proyectos
                     </p>
-                    <a href="#" className="banner-btn">
+                    <a href="/register" className="banner-btn">
                         Explorar
                     </a>
                 </section>
